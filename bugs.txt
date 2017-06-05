@@ -3,15 +3,49 @@
 # desc
 #
 
-[zookd.c:1612]
-description goes here. for example, the 'buf' variable can be
-overwritten by the 'msg' variable because ...
+[http.c:282]
+Muuttujaan pn asetetaan parametri name. Funktio strcat ei suorita testejä 
+muuttujien pituudelle joten jos ympäristömuuttuja REQUEST_URI on yli 1024 
+tavun pituinen muuttuja pn saadaan vuotamaan yli. Canary toimii.
 
-    <paste offending line(s) of code here>
+    char pn[1024];
+    ...
+    strcat(pn, name);
 
-[http.c:1512]
-another description.
+[http.c:159]
+Muuttuja value voidaan ylivuotaa antamalla headerin arvoksi yli 512 tavun
+syöte, joka asetetaan sp muuttujaan. Aliohjelma url_decode ei suorita
+pituuden tarkastusta. Canary toimii.
 
-    <paste offending line(s) of code here>
+    char value[512];
+    ...
+    url_decode(value, sp);
 
-# many more come here
+[http.c:165]
+Muuttuja envvar voidaan ylivuotaa buf muuttujalla antamalla HTTP pyynnön
+headerin nimenä yli 512 tavun syöte. Aliohjelma sprintf
+ei suorita pituustarkastastusta. Canary toimii.
+
+    char envvar[512];
+    ...
+    sprintf(envvar, "HTTP_%s", buf);
+
+[http:344]
+Aliohjelman http_serve_directory muuttuja name voidaan ylivuotaa, koska 
+dir_join aliohjelmassa käytetään strcpy aliohjelmaa, joka ei suorita
+pituuden tarkastusta. HTTP pyynnön pathiin yli 1024 tavun mittainen syöte
+johon / viimeiseksi merkiksi. Canary toimii.
+
+    char name[1024];
+    ...
+    dir_join(name, pn, indices[i]);
+    ...
+    strcpy(dst, dirname);
+
+[http:95]
+Staattinen muuttuja env voidaan ylivuotaa antamalla HTTP pyynnön
+protokollaksi yli 8192 tavun mittainen syöte. Aliohjelma sprintf
+ei suorita pituustarkastusta. Canary ei toimi, koska env on staattinen
+muuttuja joka ei ole stackissä.
+
+    envp += sprintf(envp, "SERVER_PROTOCOL=%s", sp2) + 1;
