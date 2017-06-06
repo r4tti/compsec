@@ -129,7 +129,6 @@ pid_t launch_svc(CONF *conf, const char *name)
         ++nsvcs;
         return pid;
     }
-
     /* child */
     argv[0] = cmd;
     /* argv[1] is used by svc to receive data from zookd */
@@ -144,16 +143,20 @@ pid_t launch_svc(CONF *conf, const char *name)
                     break;
     }
 
-    if (NCONF_get_number_e(conf, name, "uid", &uid))
+    /*    if (NCONF_get_number_e(conf, name, "uid", &uid))
     {
-        /* change real, effective, and saved uid to uid */
         warnx("setuid %ld", uid);
-    }
+        if (setresuid(uid,uid,uid) == -1)
+        {
+            warnx("setuid fail");
+        }
+	}*/
 
     if (NCONF_get_number_e(conf, name, "gid", &gid))
     {
         /* change real, effective, and saved gid to gid */
         warnx("setgid %ld", gid);
+        if (setresgid(gid,gid,gid) == -1) warnx("setgid fail");
     }
 
     if ((groups = NCONF_get_string(conf, name, "extra_gids")))
@@ -163,11 +166,18 @@ pid_t launch_svc(CONF *conf, const char *name)
         /* set the grouplist to gids */
         for (i = 0; i < ngids; i++)
             warnx("extra gid %d", gids[i]);
+        if (setgroups(ngids, gids)== -1) warnx("setgroups fail");
     }
 
     if ((dir = NCONF_get_string(conf, name, "dir")))
     {
-        /* chroot into dir */
+        chdir(dir);
+        if(chroot(dir)== -1) warnx("chroot fail");
+    }
+    if (NCONF_get_number_e(conf, name, "uid", &uid))
+    {
+      warnx("setuid %ld", uid);
+      if (setresuid(uid,uid,uid) == -1) warnx("setuid fail");
     }
 
     signal(SIGCHLD, SIG_DFL);

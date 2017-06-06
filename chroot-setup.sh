@@ -6,7 +6,7 @@ fi
 
 create_socket_dir() {
     local dirname="$1"
-    local ownergroup="$2"
+ls    local ownergroup="$2"
     local perms="$3"
 
     mkdir -p $dirname
@@ -19,8 +19,8 @@ set_perms() {
     local perms="$2"
     local pn="$3"
 
-    chown $ownergroup $pn
-    chmod $perms $pn
+    chown  $ownergroup $pn
+    chmod  $perms $pn
 }
 
 rm -rf /jail
@@ -57,6 +57,7 @@ mkdir -p /jail/usr/share/zoneinfo
 cp -r /usr/share/zoneinfo/America /jail/usr/share/zoneinfo/
 
 create_socket_dir /jail/echosvc 61010:61010 755
+chown 61010:61010 /jail/echosvc
 
 mkdir -p /jail/tmp
 chmod a+rwxt /jail/tmp
@@ -69,4 +70,17 @@ rm -rf /jail/zoobar/db
 
 python /jail/zoobar/zoodb.py init-person
 python /jail/zoobar/zoodb.py init-transfer
+python /jail/zoobar/zoodb.py init-cred
+
+chmod -R 750 /jail/zoobar/db
+
+#set_perms 0:61012 664 /jail/zoobar/db/person/person.db
+#set_perms 0:61012 664 /jail/zoobar/db/transfer/transfer.db
+#set_perms 0:61012 777 /jail/zoobar/db/person/
+#set_perms 0:61012 777 /jail/zoobar/db/transfer/
+#set_perms 0:61012 777 /jail/zoobar/db/
+#set_perms 0:61012 777 /jail
+
+set_perms 61012:61012 750 /jail/zoobar/index.cgi
+
 
