@@ -5,6 +5,7 @@ import time
 
 def transfer(sender, recipient, zoobars):
     bankdb = bank_setup()
+
     senderb = bankdb.query(Bank).get(sender)
     recipientb = bankdb.query(Bank).get(recipient)
 
@@ -30,11 +31,14 @@ def transfer(sender, recipient, zoobars):
 
 def balance(username):
     db = bank_setup()
+    
     bank = db.query(Bank).get(username)
     if bank is None:
         bank = Bank()
         bank.username = username
         bank.zoobars = 10
+        db.add(bank)
+        db.commit()
     return bank.zoobars
  
 def get_log(username):

@@ -85,6 +85,7 @@ chown -R 61014:61014 /jail/zoobar/db/cred
 chown -R 61015:61015 /jail/zoobar/db/transfer
 chown -R 61015:61015 /jail/zoobar/db/bank
 chmod 700 /jail/zoobar/db/cred/cred.db
+chmod 700 /jail/zoobar/db/bank/bank.db
 chmod 700 /jail/zoobar/db/cred/
 
 set_perms 61022:61022 755 /jail/zoobar/index.cgi
