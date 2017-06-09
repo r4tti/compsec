@@ -65,6 +65,10 @@ chown 61014:61014 /jail/authsvc
 create_socket_dir /jail/banksvc 61015:61015 755
 chown 61015:61015 /jail/banksvc
 
+create_socket_dir /jail/profilesvc 61016:61016 755
+chown 61016:61016 /jail/profilesvc
+
+
 mkdir -p /jail/tmp
 chmod a+rwxt /jail/tmp
 
