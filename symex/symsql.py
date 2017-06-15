@@ -13,6 +13,21 @@ def newget(query, primary_key):
   ##
   ## Hint: given a SQLalchemy row object r, you can find the name of
   ## its primary key using r.__table__.primary_key.columns.keys()[0]
-  return None
+ # for r in query.all():
+ #    print r
+
+  v = oldget(query, primary_key)
+  fuzzy.mk_str(v)
+  '''
+  for row in query.all():
+    pk = row.__table__.primary_key.columns.keys()[0]
+    eq = fuzzy.sym_eq(fuzzy.ast(pk), fuzzy.ast(row.name))
+    fuzzy.cur_path_constr_callers.append(('kdfjal',0));
+    fuzzy.cur_path_constr.append(eq)
+  '''
+  print v
+  if v is None:
+    return None    
+  return fuzzy.concolic_int(fuzzy.sym_int(fuzzy.ast(v)), v)
 
 sqlalchemy.orm.query.Query.get = newget

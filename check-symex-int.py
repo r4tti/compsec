@@ -23,6 +23,8 @@ def test_f():
     f_results.add(v)
 
 print 'Testing f..'
+#import pdb; pdb.set_trace()
+
 fuzzy.concolic_test(test_f, verbose=10)
 f_expected = (100, 70, 80, 33, 1234, 40)
 if all(x in f_results for x in f_expected):

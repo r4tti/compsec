@@ -545,6 +545,16 @@ class concolic_str(str):
   ## Implement symbolic versions of string length (override __len__)
   ## and contains (override __contains__).
 
+  def __len__(self):
+    return concolic_int(sym_length(ast(self)), len(self.__v))
+
+  def __contains__(self, o):
+    if isinstance(o, concolic_str):
+        res = o.__v in self.__v
+    else:
+        res = o in self.__v
+    return concolic_bool(sym_contains(ast(self), ast(o)), res)
+
   def startswith(self, o):
     res = self.__v.startswith(o)
     return concolic_bool(sym_startswith(ast(self), ast(o)), res)
@@ -689,6 +699,7 @@ def concolic_test(testfunc, maxiter = 100, verbose = 0):
 
     if verbose > 0:
       print 'Trying concrete values:', concrete_values
+    import pdb; pdb.set_trace()
 
     try:
       testfunc()
@@ -721,6 +732,19 @@ def concolic_test(testfunc, maxiter = 100, verbose = 0):
     ## - If this constraint is already in the "checked" set, skip
     ##   it (otherwise, add it to prevent further duplicates).
     ##
+    prev = []
+    for c, call in zip(cur_path_constr, cur_path_constr_callers):
+       new_branch = prev + [sym_not(c)]
+       prev.append(c)
+       nb = sym_and(*new_branch)
+       if nb in checked:
+          continue
+       (ok, model) = fork_and_check(nb)
+       new_inputs = concrete_values.copy()
+       new_inputs.update(model)
+       inputs.add(new_inputs, call)
+       checked.add(nb)
+
     ## - Invoke Z3, along the lines of:
     ##
     ##     (ok, model) = fork_and_check(constr)
