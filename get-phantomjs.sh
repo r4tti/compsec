@@ -8,7 +8,7 @@ if [ ! -e "$HOME/phantomjs" ]; then
   echo "One moment, downloading PhantomJS..."
   TEMPFILE=$(mktemp)
   TEMPDIR=$(mktemp -d)
-  curl "http://phantomjs.googlecode.com/files/$PHANTOMJS.tar.bz2" > "$TEMPFILE"
+  curl "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.9.2-linux-i686.tar.bz2" > "$TEMPFILE"
   echo "Unpacking..."
   tar -C "$TEMPDIR" -xjf "$TEMPFILE"
   mv "$TEMPDIR/$PHANTOMJS/bin/phantomjs" "$HOME"

@@ -66,12 +66,13 @@ class LabVisitor(object):
         return ''.join(output)
 
     def visit_Identifier(self, node):
-        return node.value
+        return 'sandbox_%s' % node.value
 
     def visit_Assign(self, node):
         # Note: if node.op is ':' this "assignment" is actually a property in
         # an object literal, i.e. { foo: 1, "bar": 2 }. In that case, node.left
         # is either an ast.Identifier or an ast.String.
+
         if node.op == ':':
             template = '%s%s %s'
         else:
@@ -322,14 +323,20 @@ class LabVisitor(object):
             template = '(%s.%s)'
         else:
             template = '%s.%s'
-        s = template % (self.visit(node.node), self.visit(node.identifier))
+        node_name = self.visit(node.identifier).replace('sandbox_', '')
+        if node_name == '__proto__' or node_name == 'constructor' or node_name == '__defineGetter__' or node_name == '__defineSetter__' or node_name == 'eval':
+            node_name = '__invalid__'
+        
+        s = template % (self.visit(node.node), node_name)
         return s
 
     def visit_BracketAccessor(self, node):
-        s = '%s[%s]' % (self.visit(node.node), self.visit(node.expr))
+        node_name = self.visit(node.expr)
+        s = '%s[bracket_check(%s)]' % (self.visit(node.node), node_name)
         return s
 
     def visit_FunctionCall(self, node):
+        id = self.visit(node.identifier)
         s = '%s(%s)' % (self.visit(node.identifier),
                         ', '.join(self.visit(arg) for arg in node.args))
         return s
@@ -363,5 +370,5 @@ class LabVisitor(object):
         return s
 
     def visit_This(self, node):
-        return 'this'
+        return 'this_check(this)'
 

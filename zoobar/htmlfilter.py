@@ -14,9 +14,24 @@ libcode = '''
             return {
                 get onclick() { return e.onclick; },
                 set onclick(h) { e.onclick = h; },
+                get textContent() { return e.textContent },
+                set textContent(h) { e.textContent = h }, 
             }
         },
     };
+    var bracket_check = function(s) {
+    if (s === '__proto__' || s === 'constructor' || s === '__defineGetter__' || s === '__defineSetter__' || typeof s === 'object') s = '__invalid__';
+      return s;
+    }
+
+    var this_check = function(t) {
+      if (t === window) return null;
+      return t;
+    }
+
+    var sandbox_setTimeout = function(cb, time) {
+       if (typeof cb ===  'function') setTimeout(cb, time);
+    }
 
     // Do not change these functions.
     function sandbox_grader(url) {
