@@ -1,4 +1,4 @@
-# ITKST53 Lab 2
+# ITKST53 Lab 6
 
 All exercises completed.
 
