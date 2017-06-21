@@ -6,8 +6,9 @@ NOTE: ALL EXERCISES TESTED AND WORKING ON CHROME.
 
 ## Instructions
 
-1. Switch branch:
+1. Stash changes in lab3 amd switch branch:
 
+> git stash
 > git checkout -b lab5 origin/lab5
 
 2. Remember to create the port forwarding according to the instructions in lab PDF (following command for Linux):
