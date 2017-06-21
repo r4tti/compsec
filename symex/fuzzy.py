@@ -699,7 +699,7 @@ def concolic_test(testfunc, maxiter = 100, verbose = 0):
 
     if verbose > 0:
       print 'Trying concrete values:', concrete_values
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     try:
       testfunc()

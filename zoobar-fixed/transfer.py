@@ -13,6 +13,8 @@ def transfer():
     try:
         if 'recipient' in request.form:
             zoobars = symint(request.form['zoobars'])
+            if g.user.person.username is request.form['recipient']:
+              raise ValueError('Self transfer')
             bank.transfer(g.user.person.username,
                           request.form['recipient'], zoobars)
             warning = "Sent %d zoobars" % zoobars

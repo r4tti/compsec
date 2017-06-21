@@ -79,9 +79,14 @@ def test_stuff():
 
   ## Detect balance mismatch.
   ## When detected, call report_balance_mismatch()
-
+  balance_after = sum([p.zoobars for p in pdb.query(zoobar.zoodb.Person).all()])
+  if balance1 is not balance_after:
+    report_balance_mismatch()
   ## Detect zoobar theft.
   ## When detected, call report_zoobar_theft()
-
+  transfers = tdb.query(zoobar.zoodb.Transfer).all()
+  t_amount = sum([t.amount for t in transfers])
+  if balance1 is not balance_after - t_amount:
+    report_zoobar_theft()
 fuzzy.concolic_test(test_stuff, maxiter=2000, verbose=1)
 

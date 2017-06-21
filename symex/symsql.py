@@ -17,17 +17,14 @@ def newget(query, primary_key):
  #    print r
 
   v = oldget(query, primary_key)
-  fuzzy.mk_str(v)
-  '''
+
   for row in query.all():
     pk = row.__table__.primary_key.columns.keys()[0]
-    eq = fuzzy.sym_eq(fuzzy.ast(pk), fuzzy.ast(row.name))
-    fuzzy.cur_path_constr_callers.append(('kdfjal',0));
-    fuzzy.cur_path_constr.append(eq)
-  '''
-  print v
-  if v is None:
-    return None    
-  return fuzzy.concolic_int(fuzzy.sym_int(fuzzy.ast(v)), v)
+    v = getattr(row, pk)
+    if v == primary_key:
+      return row
+  # if v is None:
+  # return None    
+  return None # fuzzy.concolic_int(fuzzy.sym_int(fuzzy.ast(v)), v)
 
 sqlalchemy.orm.query.Query.get = newget
