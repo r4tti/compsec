@@ -4,14 +4,10 @@ All exercises completed.
 
 ## Instructions
 
-1. While in home folder remove previous lab folder:
+1. Change branch:
 
-> sudo rm -rf lab
+> git checkout -b lab6 origin/lab6
 
-2. Clone branch straight to lab folder:
-
-> git clone -b lab6 https://github.com/r4tti/compsec.git lab
-
-3. Run check:
+2. Run check:
 
 > sudo make check
